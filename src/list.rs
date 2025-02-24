@@ -78,6 +78,18 @@ impl<T> List<T> {
         }
     }
 
+    pub fn reverse(&mut self) {
+        let mut prev = None;
+        let mut current = self.head.take();
+        while let Some(mut node) = current {
+            let next = node.next.take();
+            node.next = prev;
+            prev = Some(node);
+            current = next;
+        }
+        self.head = prev;
+    }
+
     pub fn into_iter(self) -> IntoIter<T> {
         IntoIter(self)
     }
@@ -197,6 +209,19 @@ mod test {
         assert_eq!(list_a.pop(), Some(2));
         assert_eq!(list_a.pop(), Some(999));
         assert_eq!(list_a.pop(), Some(1));
+    }
+
+    #[test]
+    fn test_list_reverse() {
+        let mut list_a = List::new();
+        list_a.push(1);
+        list_a.push(2);
+        list_a.push(3);
+        list_a.reverse();
+
+        assert_eq!(list_a.pop(), Some(1));
+        assert_eq!(list_a.pop(), Some(2));
+        assert_eq!(list_a.pop(), Some(3));
     }
 
     #[test]
