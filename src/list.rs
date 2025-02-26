@@ -1,5 +1,3 @@
-use std::usize;
-
 type NodePtr<T> = Option<Box<Node<T>>>;
 
 pub struct List<T> {
